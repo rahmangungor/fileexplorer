@@ -1,17 +1,17 @@
 <template>
   <div>
-    <ul v-for="(breadCrumb, index) in jsonData.breadCrumb" :key="index">
+    <ul v-for="(bc, index) in jsonData.breadCrumb" :key="index">
       <li>
-        <span @click="toggleChildren(breadCrumb.id)">
-          {{ breadCrumb.name }}
+        <span @click="Childrens(bc.id)">
+          {{ bc.name }}
         </span>
         <ul
-          v-if="isExpanded(breadCrumb.id)"
+          v-if="expandIs(bc.id)"
           v-for="(item, i) in jsonData.childs"
           :key="i"
         >
-          <li v-if="item.parentId == breadCrumb.id">
-            <img :src="getIcon(item)" />{{ item.name }}
+          <li v-if="item.parentId == bc.id">
+            <img :src="icons(item)" />{{ item.name }}
           </li>
         </ul>
       </li>
@@ -221,7 +221,7 @@ export default {
     };
   },
   methods: {
-    toggleChildren(parentId) {
+    Childrens(parentId) {
       const index = this.expandedBreadcrumbs.indexOf(parentId);
       if (index !== -1) {
         this.expandedBreadcrumbs.splice(index, 1); 
@@ -229,10 +229,10 @@ export default {
         this.expandedBreadcrumbs.push(parentId); 
       }
     },
-    isExpanded(parentId) {
+    expandIs(parentId) {
       return this.expandedBreadcrumbs.includes(parentId);
     },
-    getIcon(item) {
+    icons(item) {
       const icons = {
         folder: "icon-folder.svg",
         excel: "icon-excel.svg",
